@@ -1,6 +1,7 @@
 """
 jupyter_bokeh setup
 """
+
 import json
 from pathlib import Path
 
@@ -34,11 +35,12 @@ package_data_spec = {
 labext_name = "@bokeh/jupyter_bokeh"
 
 data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
-    ("share/jupyter/nbextensions/%s" % name, str(nb_path), '**'),
-    ("etc/jupyter/nbconfig/notebook.d", str(HERE), "jupyter_bokeh.json")
+    (f"share/jupyter/labextensions/{labext_name}", str(lab_path), "**"),
+    (f"share/jupyter/labextensions/{labext_name}", str(HERE), "install.json"),
+    (f"share/jupyter/nbextensions/{name}", str(nb_path), '**'),
+    ("etc/jupyter/nbconfig/notebook.d", str(HERE), "jupyter_bokeh.json"),
 ]
+
 
 cmdclass = create_cmdclass("jsdeps",
     package_data_spec=package_data_spec,
@@ -50,8 +52,7 @@ js_command = combine_commands(
     ensure_targets(jstargets),
 )
 
-is_repo = (HERE / ".git").exists()
-if is_repo:
+if is_repo := (HERE / ".git").exists():
     cmdclass["jsdeps"] = js_command
 else:
     cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)

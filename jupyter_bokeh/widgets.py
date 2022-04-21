@@ -10,6 +10,7 @@ and performs bi-directional syncing just like bokeh server does.
 
 """
 
+
 #-----------------------------------------------------------------------------
 # Boilerplate
 #-----------------------------------------------------------------------------
@@ -42,7 +43,7 @@ __all__ = (
 )
 
 _module_name = "@bokeh/jupyter_bokeh"
-_module_version = "^" + str(__version__)
+_module_version = f"^{str(__version__)}"
 
 #-----------------------------------------------------------------------------
 # General API
@@ -81,12 +82,11 @@ class BokehModel(DOMWidget):
             document = Document()
             document.add_root(model)
         (docs_json, [render_item]) = standalone_docs_json_and_render_items([model], True)
-        render_bundle = dict(
+        return dict(
             docs_json=docs_json,
             render_items=[render_item.to_json()],
             div=div_for_render_item(render_item),
         )
-        return render_bundle
 
     def update_from_model(self, model):
         self._model = model
